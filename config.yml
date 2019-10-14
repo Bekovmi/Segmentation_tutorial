@@ -22,9 +22,7 @@ stages:
     image_size : 256
 
   criterion_params:
-    _key_value: True
-    dice:
-      criterion: DiceLoss
+    criterion: DiceLoss
 
   stage1:
 

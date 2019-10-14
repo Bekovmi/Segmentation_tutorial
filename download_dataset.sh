@@ -6,4 +6,4 @@ function gdrive_download () {
 
 gdrive_download 1iYaNijLmzsrMlAdMoUEhhJuo-5bkeAuj segmentation_data.zip
 
-unzip segmentation_data.zip &>/dev/null
+unzip segmentation_data.zip &>/dev/null && mv segmentation_data/* data
