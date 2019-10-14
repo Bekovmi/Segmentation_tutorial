@@ -1,0 +1,88 @@
+{
+  "model_params": {
+    "model": "ResnetFPNUnet",
+    "num_classes": 1,
+    "arch": "resnet18",
+    "pretrained": true
+  },
+  "args": {
+    "expdir": "./",
+    "logdir": "../logs/",
+    "check": false,
+    "command": "run",
+    "configs": [
+      "./config.yml"
+    ],
+    "seed": 42,
+    "verbose": true
+  },
+  "distributed_params": {
+    "opt_level": 1
+  },
+  "stages": {
+    "data_params": {
+      "batch_size": 1,
+      "num_workers": 1,
+      "in_csv_train": "segmentation_data/dataset_train.csv",
+      "in_csv_valid": "segmentation_data/dataset_valid.csv",
+      "image_size": 224
+    },
+    "state_params": {
+      "num_epochs": 3,
+      "main_metric": "dice",
+      "minimize_metric": false
+    },
+    "criterion_params": {
+      "_key_value": true,
+      "bce": {
+        "criterion": "BCEWithLogitsLoss"
+      },
+      "dice": {
+        "criterion": "DiceLoss"
+      },
+      "iou": {
+        "criterion": "IoULoss"
+      }
+    },
+    "callbacks_params": {
+      "loss_bce": {
+        "callback": "CriterionCallback",
+        "prefix": "loss_bce",
+        "criterion_key": "bce"
+      },
+      "loss_dice": {
+        "callback": "CriterionCallback",
+        "prefix": "loss_dice",
+        "criterion_key": "dice"
+      },
+      "loss_iou": {
+        "callback": "CriterionCallback",
+        "prefix": "loss_iou",
+        "criterion_key": "iou"
+      },
+      "optimizer": {
+        "callback": "OptimizerCallback",
+        "prefix": "loss_dice"
+      },
+      "accuracy": {
+        "callback": "DiceCallback"
+      },
+      "scheduler": {
+        "callback": "EarlyStoppingCallback",
+        "patience": 5,
+        "min_delta": 0.001
+      },
+      "saver": {
+        "callback": "CheckpointCallback"
+      }
+    },
+    "stage1": {
+      "optimizer_params": {
+        "optimizer": "Lookahead",
+        "base_optimizer": "RAdam",
+        "learning_rate": 0.001,
+        "weight_decay": 0.0003
+      }
+    }
+  }
+}
