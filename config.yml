@@ -1,0 +1,63 @@
+model_params:
+  model: ResnetFPNUnet
+  num_classes: 1
+  arch: resnet18
+  pretrained: True
+
+args:
+  expdir: "src"
+  logdir: "./logs"
+
+stages:
+
+  state_params:
+    main_metric: &reduce_metric dice_score
+    minimize_metric: False
+
+  data_params:
+    num_workers: 0
+    batch_size: 1
+    in_csv_train: "./data/dataset_train.csv"
+    in_csv_valid: "./data/dataset_valid.csv"
+    image_size : 256
+
+  criterion_params:
+    _key_value: True
+    dice:
+      criterion: DiceLoss
+
+  stage1:
+
+    state_params:
+      num_epochs: 1
+
+    optimizer_params:
+      optimizer: Adam
+      lr: 0.001
+      weight_decay: 0.0003
+
+    scheduler_params:
+      scheduler: MultiStepLR
+      milestones: [10]
+      gamma: 0.3
+
+    callbacks_params:
+      loss_dice:
+        callback: CriterionCallback
+        input_key: mask
+        output_key: logits
+        prefix: &loss loss_dice
+      
+      accuracy:
+        callback: DiceCallback
+        input_key: mask
+        output_key: logits
+
+      optimizer:
+        callback: OptimizerCallback
+        loss_key: *loss
+      scheduler:
+        callback: SchedulerCallback
+        reduce_metric: *reduce_metric
+      saver:
+        callback: CheckpointCallback
