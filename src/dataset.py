@@ -1,27 +1,25 @@
+from typing import Callable, Dict, List
+import numpy as np
+import imageio
+
 from torch.utils.data import Dataset
-from skimage.io import imread as gif_imread
-import cv2
-from catalyst import utils
+
+
 class SegmentationDataset(Dataset):
-    def __init__(self, dataframe,augmentation=None):
-        self.dataframe = dataframe
-        self.augmentation = augmentation
+    def __init__(self, list_data: List[Dict], dict_transform: Callable = None):
+        self.data = list_data
+        self.dict_transform = dict_transform
+
+    def __getitem__(self, index: int) -> Dict:
+        dict_ = self.data[index]
+        dict_ = {
+            "image": np.asarray(imageio.imread(dict_["image"], pilmode="RGB")),
+            "mask": np.asarray(imageio.imread(dict_["mask"])),
+        }
+        if self.dict_transform is not None:
+            dict_ = self.dict_transform(**dict_)
+
+        return dict_
 
     def __len__(self) -> int:
-        return len(self.dataframe)
-
-    def __getitem__(self, idx: int) -> dict:
-        image_path = self.dataframe.iloc[idx,0]
-        image = cv2.imread(image_path)
-        
-        result = {"image": image}
-        
-        mask = gif_imread(self.dataframe.iloc[idx,1])
-        result["mask"] = mask
-        
-        if self.transforms is not None:
-            result = self.transforms(**result)
-        
-        result["filename"] = image_path.name
-
-        return result
+        return len(self.data)

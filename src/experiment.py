@@ -28,16 +28,11 @@ class Experiment(ConfigExperiment):
         
         transform_fn = Compose([pre_transform_fn, post_transform_fn])
 
-        def process(dict_):
-            result = transform_fn(**dict_)
-            return result
-
-        return process
+        return transform_fn
 
     def get_datasets(
         self,
         stage: str,
-        datapath: str = None,
         in_csv_train: str = None,
         in_csv_valid: str = None,
         image_size: int = 256,
@@ -49,9 +44,8 @@ class Experiment(ConfigExperiment):
         ):
             dataframe = pd.read_csv(source)
             datasets[mode] = SegmentationDataset(
-                dataframe,
-                datapath,
-                augmentation=self.get_transforms(
+                dataframe.to_dict('records'),
+                dict_transform=self.get_transforms(
                     stage=stage, mode=mode, image_size=image_size
                 ),
             )
