@@ -1,28 +1,23 @@
-from skimage.io import imread as gif_imread
-
 from torch.utils.data import Dataset
-
+from skimage.io import imread as gif_imread
+import cv2
 from catalyst import utils
-
-
 class SegmentationDataset(Dataset):
-    def __init__(self, dataframe, path_img, augmentation=None):
+    def __init__(self, dataframe,augmentation=None):
         self.dataframe = dataframe
         self.augmentation = augmentation
-        self.path_img = path_img
 
     def __len__(self) -> int:
-        return len(self.images)
+        return len(self.dataframe)
 
     def __getitem__(self, idx: int) -> dict:
-        image_path = self.dataframe.iloc[0,idx]
-        image = utils.imread(image_path)
+        image_path = self.dataframe.iloc[idx,0]
+        image = cv2.imread(image_path)
         
         result = {"image": image}
         
-        if self.masks is not None:
-          mask = gif_imread(self.masks[1,idx])
-          result["mask"] = mask
+        mask = gif_imread(self.dataframe.iloc[idx,1])
+        result["mask"] = mask
         
         if self.transforms is not None:
             result = self.transforms(**result)
