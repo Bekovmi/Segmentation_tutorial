@@ -11,12 +11,12 @@ args:
 stages:
 
   state_params:
-    main_metric: &reduce_metric dice_score
+    main_metric: &reduce_metric dice
     minimize_metric: False
 
   data_params:
     num_workers: 0
-    batch_size: 1
+    batch_size: 64 
     in_csv_train: "./data/dataset_train.csv"
     in_csv_valid: "./data/dataset_valid.csv"
     image_size : 256
@@ -27,7 +27,7 @@ stages:
   stage1:
 
     state_params:
-      num_epochs: 1
+      num_epochs: 10
 
     optimizer_params:
       optimizer: Adam
