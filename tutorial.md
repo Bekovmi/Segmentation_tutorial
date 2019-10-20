@@ -1,5 +1,5 @@
 ## TO DO
-1) Добавить линк на тетрадку
+1) Данные https://colab.research.google.com/github/catalyst-team/catalyst/blob/master/examples/notebooks/segmentation-tutorial.ipynb#scrollTo=Grrv0FqpY25-&line=6&uniqifier=1
 2) 
 - Из tutorial.md вынести в README.md
 - Написать в ридми, что собственно запускается, какой будет результат
