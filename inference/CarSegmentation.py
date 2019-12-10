@@ -5,7 +5,7 @@ import glob
 from CarPredict.predict import predict
 import cv2
 def Car_Segmenatation(path_in, path_out, filename, threshold,path_model,image_size):
-	mask_predictor = MaskPredict(path_model)
+	mask_predictor = MaskPredict(path_model, image_size)
     data = pd.DataFrame({"image":glob.glob(path_in)})
 	for image in data.iloc[:,0]:
        	mask = mask_predictor.predict(image, threshold=0.5)
