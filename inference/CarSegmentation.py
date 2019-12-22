@@ -1,11 +1,11 @@
-from inferens import RemoveBackground
+from inferens import Predictor
 import argparse
 import pandas as pd
 import os
 import cv2
 import numpy as np
 def Car_Segmenatation(path_in, path_out, path_model,threshold,image_size):
-    mask_predictor = RemoveBackground(path_model,image_size)
+    mask_predictor = Predictor(path_model,image_size)
 
     data = pd.DataFrame({"image":os.listdir(path_in)})
     for image_file in data.iloc[:,0]:
