@@ -1,6 +1,4 @@
-download_dataset.sh
-
-download-gdrive {1iYaNijLmzsrMlAdMoUEhhJuo-5bkeAuj} {segmentation_data.zip}
+download-gdrive 1iYaNijLmzsrMlAdMoUEhhJuo-5bkeAuj segmentation_data.zip
 mkdir data
 unzip segmentation_data.zip &>/dev/null 
 mv segmentation_data/* data

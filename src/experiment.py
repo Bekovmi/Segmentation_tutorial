@@ -1,13 +1,10 @@
 import collections
 import pandas as pd
-
 from catalyst.dl import ConfigExperiment
-
 from .dataset import SegmentationDataset
 from .transforms import (
     pre_transforms, post_transforms, hard_transform, Compose
 )
-
 
 class Experiment(ConfigExperiment):
     @staticmethod
@@ -15,7 +12,6 @@ class Experiment(ConfigExperiment):
         stage: str = None, mode: str = None, image_size: int = 256,
     ):
         pre_transform_fn = pre_transforms(image_size=image_size)
-
         if mode == "train":
             post_transform_fn = Compose([
                 hard_transform(image_size=image_size),
@@ -27,9 +23,7 @@ class Experiment(ConfigExperiment):
             raise NotImplementedError()
         
         transform_fn = Compose([pre_transform_fn, post_transform_fn])
-
         return transform_fn
-
     def get_datasets(
         self,
         stage: str,
@@ -38,7 +32,6 @@ class Experiment(ConfigExperiment):
         image_size: int = 256,
     ):
         datasets = collections.OrderedDict()
-
         for source, mode in zip(
             (in_csv_train, in_csv_valid), ("train", "valid")
         ):
@@ -49,5 +42,4 @@ class Experiment(ConfigExperiment):
                     stage=stage, mode=mode, image_size=image_size
                 ),
             )
-
         return datasets

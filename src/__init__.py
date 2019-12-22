@@ -1,2 +1,2 @@
 from .experiment import Experiment
-from .runner import Runner
+from catalyst.dl import SupervisedRunner as Runner
