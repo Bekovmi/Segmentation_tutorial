@@ -5,7 +5,7 @@ import torch
 import os
 from transforms import (pre_transforms, post_transforms, Compose)
 from catalyst.dl import utils
-class RemoveBackground:
+class Predictor:
 	def __init__(self, model_path,image_size):
 		self.augmentation =Compose([pre_transforms(image_size=image_size),post_transforms()])
 		self.m = nn.Sigmoid()
