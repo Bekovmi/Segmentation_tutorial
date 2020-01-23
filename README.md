@@ -1,5 +1,5 @@
 tutorial.md
-# Как учить модели в скиптах с помощью с Сonfig API Catalyst
+# Как учить модели в скриптах с помощью с Сonfig API Catalyst
 Привет, для воспроизводимости и версионирования пайплайна опытные DS сохраняют все параметры в YAML или JSON файлы. Catalyst предоставляет такой функционал прямо из коробки,  в этом туториале я покажу на примере [Segmentation tutorial](https://github.com/catalyst-team/catalyst/blob/master/examples/notebooks/segmentation-tutorial.ipynb), как обернуть его в Config API.
 В качестве основы возьмем Segmentation tutorial и последовательно шаг за шагом перепишем. Сначала разобьем jupyter-notebook на составные части: 
 1) Настройка виртуального окружения
