@@ -111,7 +111,7 @@ class SegmentationDataset(Dataset):
 
 
 ```
-iimport collections
+import collections
 import pandas as pd
 from catalyst.dl import ConfigExperiment
 from .dataset import SegmentationDataset
